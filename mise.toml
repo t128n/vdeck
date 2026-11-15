@@ -1,0 +1,7 @@
+[tools]
+rust = "stable"
+uv = "latest"
+
+[tasks.dev]
+description = "Run vDeck in Rune hot-reload mode"
+run = "uv run python vendor/github.com/anomalyco/rune/scripts/rune-dev --local --manifest-path Cargo.toml --patch src/main.rs"

@@ -1,0 +1,376 @@
+# vDeck 3x3 configuration
+# Numpad: 7 8 9 (row 1), 4 5 6 (row 2), 1 2 3 (row 3)
+# Numpad 0 toggles the deck in the bottom-right corner of the cursor's monitor.
+# Invariants:
+# - Home is always the root (one Back from any context page).
+# - Back always occupies bottom-left (Numpad 1) on every context/utilities page.
+# - One layer per context by default; unused slots stay empty.
+
+reset_grace_ms = 2000
+
+[[plugins]]
+id = "win11"
+command = "uv"
+args = ["run", "python", "plugins/core_win11.py"]
+
+[plugins.config]
+notes_app = "obsidian"
+# obsidian_vault = ""
+capture_app = "sharex"
+# sharex_path = ""
+
+[[plugins]]
+id = "github"
+command = "uv"
+args = ["run", "python", "plugins/github.py"]
+# config = { hostname = "github.com" }
+
+[[plugins]]
+id = "powertoys"
+command = "uv"
+args = ["run", "python", "plugins/powertoys.py"]
+
+[[plugins]]
+id = "teams"
+command = "uv"
+args = ["run", "python", "plugins/teams.py"]
+
+[[plugins]]
+id = "rdp"
+command = "uv"
+args = ["run", "python", "plugins/rdp.py", "--stdio"]
+  [[plugins.config.groups]]
+  name = "Lab"
+  accent = "cyan"
+  username = "user"
+  password = "test"
+  servers = [
+    { name = "Test VM", host = "172.26.152.187" },
+  ]
+
+# ---------------------------------------------------------------------------
+# Home (root)
+# ---------------------------------------------------------------------------
+[[decks]]
+id = "root"
+name = "Home"
+
+[[decks.layers]]
+name = "Home"
+
+[[decks.layers.keys]]
+label = "Focus"
+icon = "sun"
+accent = "amber"
+toggle = true
+action = { type = "plugin", plugin = "win11", command = "focus" }
+
+[[decks.layers.keys]]
+label = "Meeting"
+icon = "mic"
+accent = "cyan"
+action = { type = "open_deck", deck = "meeting" }
+
+[[decks.layers.keys]]
+label = "Notes"
+icon = "layers"
+accent = "purple"
+action = { type = "plugin", plugin = "win11", command = "notes" }
+
+[[decks.layers.keys]]
+label = "Dev"
+icon = "terminal"
+accent = "blue"
+action = { type = "open_deck", deck = "dev" }
+
+[[decks.layers.keys]]
+label = "GitHub"
+icon = "simple-icons:github"
+accent = "purple"
+action = { type = "plugin", plugin = "github", command = "repos" }
+
+[[decks.layers.keys]]
+label = "Product"
+icon = "layers"
+accent = "green"
+action = { type = "open_deck", deck = "product" }
+
+[[decks.layers.keys]]
+label = "Terminal"
+icon = "terminal"
+accent = "teal"
+action = { type = "plugin", plugin = "win11", command = "terminal" }
+
+[[decks.layers.keys]]
+label = "Capture"
+icon = "scissors"
+accent = "green"
+action = { type = "plugin", plugin = "win11", command = "capture" }
+
+[[decks.layers.keys]]
+label = "Utilities"
+icon = "layers"
+accent = "amber"
+action = { type = "open_deck", deck = "utilities" }
+
+# ---------------------------------------------------------------------------
+# Dev
+# ---------------------------------------------------------------------------
+[[decks]]
+id = "dev"
+name = "Dev"
+
+[[decks.layers]]
+name = "Workflows"
+
+[[decks.layers.keys]]
+label = "Repos"
+icon = "simple-icons:github"
+accent = "purple"
+action = { type = "plugin", plugin = "github", command = "repos" }
+
+[[decks.layers.keys]]
+label = "Test"
+icon = "play"
+accent = "cyan"
+action = { type = "command", cmd = "cargo", args = ["test"] }
+
+[[decks.layers.keys]]
+label = "CI Logs"
+icon = "simple-icons:github"
+accent = "red"
+action = { type = "plugin", plugin = "github", command = "ci_logs" }
+
+[[decks.layers.keys]]
+label = "Agent"
+icon = "terminal"
+accent = "teal"
+action = { type = "plugin", plugin = "win11", command = "agent" }
+
+[[decks.layers.keys]]
+label = "Run"
+icon = "play"
+accent = "green"
+action = { type = "command", cmd = "cargo", args = ["run"] }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = "Back"
+icon = "back"
+accent = "orange"
+action = { type = "back" }
+
+[[decks.layers.keys]]
+label = "Shell"
+icon = "terminal"
+accent = "blue"
+action = { type = "plugin", plugin = "win11", command = "terminal" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+# ---------------------------------------------------------------------------
+# Product
+# ---------------------------------------------------------------------------
+[[decks]]
+id = "product"
+name = "Product"
+
+[[decks.layers]]
+name = "Workflows"
+
+[[decks.layers.keys]]
+label = "Triage"
+icon = "simple-icons:github"
+accent = "purple"
+action = { type = "plugin", plugin = "github", command = "triage" }
+
+[[decks.layers.keys]]
+label = "CI Logs"
+icon = "simple-icons:github"
+accent = "red"
+action = { type = "plugin", plugin = "github", command = "ci_logs" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = "Notes"
+icon = "layers"
+accent = "purple"
+action = { type = "plugin", plugin = "win11", command = "notes" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = "Back"
+icon = "back"
+accent = "orange"
+action = { type = "back" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+# ---------------------------------------------------------------------------
+# Meeting
+# ---------------------------------------------------------------------------
+[[decks]]
+id = "meeting"
+name = "Meeting"
+
+[[decks.layers]]
+name = "Teams"
+
+[[decks.layers.keys]]
+label = "Mute"
+icon = "mic"
+accent = "red"
+toggle = true
+action = { type = "plugin", plugin = "teams", command = "mute" }
+
+[[decks.layers.keys]]
+label = "Camera"
+icon = "camera"
+accent = "cyan"
+toggle = true
+action = { type = "plugin", plugin = "teams", command = "camera" }
+
+[[decks.layers.keys]]
+label = "Raise Hand"
+icon = "lucide:hand"
+accent = "amber"
+toggle = true
+action = { type = "plugin", plugin = "teams", command = "raise_hand" }
+
+[[decks.layers.keys]]
+label = "Like"
+icon = "lucide:thumbs-up"
+accent = "blue"
+close = false
+action = { type = "plugin", plugin = "teams", command = "react", params = { reaction = "like" } }
+
+[[decks.layers.keys]]
+label = "Love"
+icon = "lucide:heart"
+accent = "red"
+close = false
+action = { type = "plugin", plugin = "teams", command = "react", params = { reaction = "love" } }
+
+[[decks.layers.keys]]
+label = "Notes"
+icon = "layers"
+accent = "purple"
+action = { type = "plugin", plugin = "win11", command = "notes" }
+
+[[decks.layers.keys]]
+label = "Back"
+icon = "back"
+accent = "orange"
+action = { type = "back" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = "Leave"
+icon = "lucide:phone-off"
+accent = "red"
+action = { type = "plugin", plugin = "teams", command = "leave" }
+
+# ---------------------------------------------------------------------------
+# Utilities
+# ---------------------------------------------------------------------------
+[[decks]]
+id = "utilities"
+name = "Utilities"
+
+[[decks.layers]]
+name = "System"
+
+[[decks.layers.keys]]
+label = "Text Extract"
+icon = "scissors"
+accent = "cyan"
+action = { type = "plugin", plugin = "powertoys", command = "text_extractor" }
+
+[[decks.layers.keys]]
+label = "Color Pick"
+icon = "sun"
+accent = "amber"
+action = { type = "plugin", plugin = "powertoys", command = "color_picker" }
+
+[[decks.layers.keys]]
+label = "Ruler"
+icon = "layers"
+accent = "teal"
+action = { type = "plugin", plugin = "powertoys", command = "screen_ruler" }
+
+[[decks.layers.keys]]
+label = "Remote"
+icon = "lucide:server"
+accent = "blue"
+action = { type = "plugin", plugin = "rdp", command = "groups" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = ""
+icon = "circle"
+accent = "cyan"
+action = { type = "none" }
+
+[[decks.layers.keys]]
+label = "Back"
+icon = "back"
+accent = "orange"
+action = { type = "back" }
+
+[[decks.layers.keys]]
+label = "Sys Mute"
+icon = "volume"
+accent = "red"
+toggle = true
+action = { type = "plugin", plugin = "win11", command = "mute" }
+
+[[decks.layers.keys]]
+label = "Lock"
+icon = "lock"
+accent = "orange"
+action = { type = "plugin", plugin = "win11", command = "lock" }

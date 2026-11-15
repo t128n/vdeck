@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-windows:
+    name: Build Windows x86_64
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Build release binary
+        run: cargo build --release --locked
+
+      - name: Package release archive
+        shell: pwsh
+        run: |
+          $stage = "dist/vdeck"
+          New-Item -ItemType Directory -Force -Path $stage | Out-Null
+          Copy-Item "target/release/vdeck.exe" "$stage/"
+          Copy-Item "vdeck.toml" "$stage/"
+          Copy-Item "plugins" "$stage/plugins" -Recurse
+          Copy-Item "examples" "$stage/examples" -Recurse
+          Compress-Archive -Path "$stage/*" -DestinationPath "dist/vdeck-windows-x86_64.zip" -Force
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vdeck-windows-x86_64
+          path: dist/vdeck-windows-x86_64.zip
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/vdeck-windows-x86_64.zip
+          generate_release_notes: true

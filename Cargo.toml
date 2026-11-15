@@ -1,0 +1,26 @@
+[package]
+name = "vdeck"
+version = "0.1.0"
+edition = "2024"
+
+[features]
+hot = ["rune/hot"]
+
+[dependencies]
+rune = { git = "https://github.com/anomalyco/rune", rev = "4529c6c16c6b7ad12b09deab5e0fa886ad0b3dec" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+
+[patch.crates-io]
+wgpu-hal = { git = "https://github.com/anomalyco/rune", rev = "4529c6c16c6b7ad12b09deab5e0fa886ad0b3dec" }
+winit = { git = "https://github.com/anomalyco/rune", rev = "4529c6c16c6b7ad12b09deab5e0fa886ad0b3dec" }
+parley_engine = { git = "https://github.com/anomalyco/rune", rev = "4529c6c16c6b7ad12b09deab5e0fa886ad0b3dec" }
+accesskit_windows = { git = "https://github.com/anomalyco/rune", rev = "4529c6c16c6b7ad12b09deab5e0fa886ad0b3dec" }
+accesskit_macos = { git = "https://github.com/anomalyco/rune", rev = "4529c6c16c6b7ad12b09deab5e0fa886ad0b3dec" }
+
+[profile.dev]
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+debug = false

@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  rust:
+    name: Build & Test (Windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Check all targets
+        run: cargo check --all-targets --locked
+
+      - name: Run tests
+        run: cargo test --locked
+
+  python:
+    name: Plugin Syntax Check
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile-check Python plugins
+        shell: pwsh
+        run: |
+          $files = Get-ChildItem -Path plugins, examples -Filter *.py -Recurse | ForEach-Object { $_.FullName }
+          if ($files) {
+            python -m py_compile @files
+          }
